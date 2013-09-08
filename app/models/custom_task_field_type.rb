@@ -6,4 +6,8 @@ class CustomTaskFieldType < ActiveRecord::Base
   has_many :custom_task_fields, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
+
+  def to_s
+    name
+  end
 end

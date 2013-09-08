@@ -36,7 +36,7 @@ en:
   label_tasks_select_user_all: All
   label_settings_tracker: Default tracker for new tasks
   label_settings_activity: Default activity for spent time
-  label_settings_closedstatus: Status, that marks task as closed
+  label_settings_closedstatus: "Status, that marks task as closed"
   label_settings_column1status: Task Status for 1st column
   label_settings_column2status: Task Status for 2nd column
   label_settings_column3status: Task Status for 3th column
@@ -47,3 +47,4 @@ en:
   label_settings_columncount: Number of columns
   label_settings_delete_custom_field_type:  Delete custom field type
   label_settings_add_custom_field_type: Add custom field type
+  label_task_custom_field_placeholder_value: "[undefined]"

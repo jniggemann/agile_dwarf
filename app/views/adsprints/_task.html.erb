@@ -16,11 +16,19 @@
         <span class="task_tracker_name"><%=h task.t_name %>&nbsp;-&nbsp;</span>
         <span class="task_subject"><%=h task.subject %></span>
       </div>
-      <div>
+      <div class='clearfix'>
         <span class="fl">Estimated hours:&nbsp;</span><span class="fl task_estimate"><%=h task.estimated_hours || l(:label_sprints_placeholder_estimated) %></span>
 
         <span class="fr task_owner"><%=h task.assigned_to %></span>
         <span class="fr">Assigned to:&nbsp;</span>
+      </div>
+      <div class='clearfix'>
+        <% task.custom_task_fields.each do |field| %>
+          <div class='task_custom_field' data-type-id="<%= field.type.id %>">
+            <span class='name fl'><%= field.type %>:</span>
+            <span class='value fl'><%= field.value %></span>
+          </div>
+        <% end %>
       </div>
     </div>
 </div>

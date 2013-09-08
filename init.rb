@@ -34,6 +34,7 @@ Redmine::Plugin.register :agile_dwarf do
     permission :sprints_tasks, {:adtasks => [:list], :adtaskinl => [:update, :inplace, :tooltip, :spent]}
     permission :sprints_tasks_readonly, {:adtasks => [:list]}
     permission :burndown_charts, {:adburndown => [:show]}
+    permission :update_custom_fields, {sprint_custom_fields: [:update, :update_by_type]}
   end
 
   menu :project_menu, :adtasks, { :controller => 'adtasks', :action => 'list' }, :caption => :label_menu_mytasks, :after => :activity, :param => :project_id

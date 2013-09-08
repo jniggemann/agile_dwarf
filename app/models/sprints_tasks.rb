@@ -2,7 +2,9 @@ class SprintsTasks < Issue
   unloadable
 
   acts_as_list :column => "ir_position"
-  has_many :custom_task_fields, dependent: :destroy
+  has_many :custom_task_fields, dependent: :destroy, order: 'type_id ASC'
+
+  after_create :create_custom_task_fields
 
   ORDER = 'case when issues.ir_position is null then 1 else 0 end ASC, case when issues.ir_position is NULL then issues.id else issues.ir_position end ASC'
 
@@ -101,4 +103,13 @@ class SprintsTasks < Issue
     self.init_journal(User.current)
     update_attributes attribs
   end
+
+  private
+    def create_custom_task_fields
+      CustomTaskFieldType.all.each do |type|
+        ctf = CustomTaskField.new
+        ctf.sprints_tasks = self
+        type.custom_task_fields << ctf
+      end
+    end
 end

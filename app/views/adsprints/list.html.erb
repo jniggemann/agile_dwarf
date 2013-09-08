@@ -35,7 +35,8 @@
             task_subject_placeholder: '<%= l(:label_sprints_placeholder_subject) %>',
             task_estimate_placeholder: '<%= l(:label_sprints_placeholder_estimated) %>',
             task_owner_placeholder: '<%= l(:label_sprints_placeholder_owner) %>',
-            sprint_description_placeholder:  '<%= l(:label_sprints_placeholder_desc) %>'
+            sprint_description_placeholder:  '<%= l(:label_sprints_placeholder_desc) %>',
+            task_custom_field_placeholder: '<%= l(:label_task_custom_field_placeholder_value) %>'
         }
     });
 </script>
@@ -105,11 +106,23 @@
 
 <div id="task_template" class="hidden">
     <div class="sc_task new">
-      <div class="fl task_no"></div>
-      <div class="fl task_desc"><img src="<%= File.join(@plugin_path, 'images', 'task_desc.png') %>"/></div>
-      <div class="task_subject"></div>
-      <div class="task_estimate fl"></div>
-      <div class="task_owner fr"></div>
+      <div class="clearfix">
+        <div class="fl task_no"></div>
+        <div class="fl task_desc"><img src="<%= File.join(@plugin_path, 'images', 'task_desc.png') %>"/></div>
+        <div class="task_subject"></div>
+      </div>
+      <div class="clearfix">
+        <div class="task_estimate fl"></div>
+        <div class="task_owner fr"></div>
+      </div>
+      <div class='clearfix'>
+        <% CustomTaskFieldType.all.each do |type| %>
+          <div class='hidden task_custom_field' data-type-id="<%= type.id %>">
+            <span class='name fl'><%= type %>:</span>
+            <span class='value fl'></span>
+          </div>
+        <% end %>
+      </div>
     </div>
 </div>
 

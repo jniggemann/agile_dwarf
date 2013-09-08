@@ -209,13 +209,18 @@
         isNew = !!isNew;
         if (isNew)
         {
-            $('.task_subject', el).editable(Sprints.getUrl('taskinline'), $.extend({name: 'subject', type: 'ptext', placeholder: Sprints.l('task_subject_placeholder'), callback: function(value, settings)
-            {
-                var inlineEl = $(this);
-                inlineEl.editable('destroy');
-                addTaskInlines();
-                task.element.removeClass('new');
-            }}, taskInlineOpts)).click();
+            $('.task_subject', el).editable(Sprints.getUrl('taskinline'), $.extend({
+                name: 'subject',
+                type: 'ptext',
+                placeholder: Sprints.l('task_subject_placeholder'),
+                callback: function(value, settings)
+                    {
+                        var inlineEl = $(this);
+                        inlineEl.editable('destroy');
+                        addTaskInlines();
+                        task.element.removeClass('new');
+                    }
+                }, taskInlineOpts)).click();
         } else
             addTaskInlines(isNew);
         function addTaskInlines()
@@ -226,18 +231,41 @@
                 Sprints.Coop.update(task.id, 'task', 'subject', res);
             }}, taskInlineOpts));
 
-            $('.task_estimate', el).editable(Sprints.getUrl('taskinline'), $.extend({name: 'estimated_hours', type: 'ptext', placeholder: Sprints.l('task_estimate_placeholder'), callback: function (res, settings)
-            {
-                task.setTime(res);
-                Sprints.Coop.update(task.id, 'task', 'time', res);
-            }}, taskInlineOpts));
+            $('.task_owner', el).editable(Sprints.getUrl('taskinline'), $.extend({
+                name: 'assigned_to_id',
+                type: 'select',
+                onblur : 'submit',
+                placeholder: Sprints.l('task_owner_placeholder'),
+                data: Sprints.getProjectUsers(),
+                callback: function (res, settings) {
+                  task.setOwner(res);
+                  Sprints.Coop.update(task.id, 'task', 'owner', res);
+                }
+              }, taskInlineOpts));
 
-            $('.task_owner', el).editable(Sprints.getUrl('taskinline'), $.extend({name: 'assigned_to_id', type: 'select', onblur : 'submit', placeholder: Sprints.l('task_owner_placeholder'),
-                data: Sprints.getProjectUsers(), callback: function (res, settings)
-                {
-                    task.setOwner(res);
-                    Sprints.Coop.update(task.id, 'task', 'owner', res);
-                }}, taskInlineOpts));
+            $('.task_estimate', el).each(function (index, elem) {
+              $(elem).editable(Sprints.getUrl('taskinline'), $.extend({
+                  name: 'estimated_hours',
+                  type: 'ptext',
+                  placeholder: Sprints.l('task_estimate_placeholder'),
+                  callback: function (res, settings) {
+                      task.setTime(res);
+                      Sprints.Coop.update(task.id, 'task', 'time', res);
+                  }
+                }, taskInlineOpts));
+            });
+
+            $('.task_custom_field', el).each(function (index, element) {
+              var edit = $(element).children('span.value');
+              var type_id = $(element).attr('data-type-id');
+              edit.editable('/sprint_custom_fields?type_id=' + type_id, $.extend({
+                method: 'PUT',
+                name: 'value',
+                type: 'ptext',
+                placeholder: Sprints.l('task_custom_field_placeholder')
+              }, taskInlineOpts));
+              $(element).show();
+            })
         }
 
         // tooltip
@@ -385,7 +413,7 @@
                 },
                 success: function (data)
                 {
-                    var task = $('#task_template').children(':eq(0)').clone().prependTo($('.task_list', el));
+                    var task = $('#task_template').children().clone().prependTo($('.task_list', el));
                     task.prop('id', 'task.' + data);
                     el.sortable("refresh");
                     task.children('.task_no').html('<a href="' + Sprints.getUrl('issues') + '/' + data + '">#' + data + '</a>');
