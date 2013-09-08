@@ -117,7 +117,7 @@
       </div>
       <div class='clearfix'>
         <% CustomTaskFieldType.all.each do |type| %>
-          <div class='hidden task_custom_field' data-type-id="<%= type.id %>">
+          <div class='hidden task_custom_field clearfix' data-type-id="<%= type.id %>">
             <span class='name fl'><%= type %>:</span>
             <span class='value fl'></span>
           </div>

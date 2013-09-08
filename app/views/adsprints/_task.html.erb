@@ -24,7 +24,7 @@
       </div>
       <div class='clearfix'>
         <% task.custom_task_fields.each do |field| %>
-          <div class='task_custom_field' data-type-id="<%= field.type.id %>">
+          <div class='task_custom_field clearfix' data-type-id="<%= field.type.id %>">
             <span class='name fl'><%= field.type %>:</span>
             <span class='value fl'><%= field.value %></span>
           </div>
