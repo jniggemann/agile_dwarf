@@ -22,21 +22,16 @@ class AdtaskinlController < ApplicationController
 
   def create
     attribs = params.select{|k,v| k != 'id' and SprintsTasks.column_names.include? k }
-    attribs = Hash[*attribs.flatten]
-    attribs['tracker_id'] = attribs['tracker_id'] || Setting.plugin_agile_dwarf['tracker']
+    attribs['tracker_id'] ||= Setting.plugin_agile_dwarf['tracker']
     attribs['author_id'] = User.current.id
     task = SprintsTasks.new(attribs)
-    begin
-      task.save!
-    rescue => e
-      render :text => e.message.blank? ? e.to_s : e.message, :status => 400
-      return
-    end
 
-    status = (task.errors.empty? ? 200 : 400)
-
-    respond_to do |format|
-      format.html { render :text => task.id, :status => status}
+    if task.save
+      respond_to do |format|
+        format.html { render :text => task.id, :status => status}
+      end
+    else
+      render :text => task.errors, status: 400
     end
   end
 

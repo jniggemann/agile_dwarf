@@ -6,7 +6,7 @@ class AdsprintsController < ApplicationController
   def list
     @backlog = SprintsTasks.get_backlog(@project)
     @sprints = Sprints.all_sprints(@project).select {|s| s.name.downcase.match(/release$/).nil? }
-    
+
     # releases are a versioned backlog that appear on the left side of the interface, rather than with the rest of the sprints on the right
     @releases = Sprints.all_sprints(@project).select {|s| s.name.downcase.match(/release$/).present? }
 
@@ -14,7 +14,7 @@ class AdsprintsController < ApplicationController
     # TODO: this is fugly and needs to be cleaner
     @sprints.each {|s| s.tasks = SprintsTasks.get_tasks_by_sprint(@project, s.id) }
     @releases.each {|s| s.tasks = SprintsTasks.get_tasks_by_sprint(@project, s.id) }
-    
+
     @assignables = {}
     @project.assignable_users.each{|u| @assignables[u.id] = u.name}
     @project_id = @project.id

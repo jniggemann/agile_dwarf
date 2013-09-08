@@ -27,7 +27,7 @@ class SprintsTasks < Issue
 # ricemery approach (2fe8c22e3efc)
 #   SprintsTasks.find(:all, :select => 'issues.*, sum(hours) as spent, trackers.name AS t_name', :order => SprintsTasks::ORDER, :conditions => cond, :group => "issues.id",
 #                     :joins => [:status], :joins => "left join time_entries ON time_entries.issue_id = issues.id left join trackers on trackers.id = tracker_id", :include => [:assigned_to]).each{|task| tasks << task}
-    return filter_out_user_stories_with_children tasks
+    filter_out_user_stories_with_children tasks
   end
 
   def self.get_tasks_by_sprint(project, sprint)
@@ -47,19 +47,17 @@ class SprintsTasks < Issue
       end
     end
 
-    tasks = [].tap do |t|
-      SprintsTasks.find(:all, :select => 'issues.*, trackers.name AS t_name', :order => SprintsTasks::ORDER, :conditions => cond, :joins => :status, :joins => "left join issue_statuses on issue_statuses.id = status_id left join trackers on trackers.id = tracker_id", :include => :assigned_to).each{|task| t << task}
-    end
-
-    return filter_out_user_stories_with_children tasks
+    tasks = SprintsTasks.find(:all, :select => 'issues.*, trackers.name AS t_name', :order => SprintsTasks::ORDER, :conditions => cond, :joins => :status, :joins => "left join issue_statuses on issue_statuses.id = status_id left join trackers on trackers.id = tracker_id", :include => [:assigned_to, :custom_task_fields])
+    filter_out_user_stories_with_children tasks
   end
 
   def self.filter_out_user_stories_with_children(tasks)
     # if the task is a user story then only display it if it has no child issues.
     # if it does then we schedule the child issues, not the user story itself
-    if user_story_tracker_id = Tracker.where(name: "UserStory").first.try(:id)
+    userstory_tracker = Tracker.find_by_name("UserStory")
+    if userstory_tracker
       tasks.select do |t|
-        if t.tracker_id == user_story_tracker_id
+        if t.tracker_id == userstory_tracker.id
           t.descendants.empty?
         else
           true
@@ -71,7 +69,7 @@ class SprintsTasks < Issue
   end
 
   def self.get_backlog(project = nil)
-    return SprintsTasks.get_tasks_by_sprint(project, 'null')
+    SprintsTasks.get_tasks_by_sprint(project, 'null')
   end
 
   def move_after(prev_id)
