@@ -1,4 +1,6 @@
 <%= javascript_include_tag 'libs/jquery-1.7.2.min.js', :plugin => 'agile_dwarf' %>
+<%= javascript_include_tag 'libs/select2/select2.min.js', plugin: 'agile_dwarf' %>
+<%= stylesheet_link_tag 'libs/select2/select2.css', :plugin => 'agile_dwarf' %>
 <%= javascript_include_tag 'settings', :plugin => 'agile_dwarf' %>
 
 <p>
@@ -56,4 +58,20 @@
       <%= content_tag(:label, l(:label_settings_column7status)) %>
       <%= select_tag("settings[stcolumn7]", options_from_collection_for_select(IssueStatus.all, :id, :name, Setting.plugin_agile_dwarf['stcolumn7'].to_i)) %>
     </p>
+</div>
+
+<div id='add_custom_field_type'>
+  <p>
+    <%= label_tag l(:label_settings_add_custom_field_type) %>
+    <%= text_field_tag :new_custom_field_type %>
+    <%= button_tag :add %>
+  </p>
+</div>
+
+<div id='remove_custom_field_type'>
+  <p>
+    <%= label_tag l(:label_settings_delete_custom_field_type) %>
+    <%= select_tag("settings[custom_field_type]", options_from_collection_for_select(CustomTaskFieldType.all, :id, :name)) %>
+    <%= button_tag :remove %>
+  </p>
 </div>
