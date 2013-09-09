@@ -6,17 +6,14 @@ class SprintsTasks < Issue
   ORDER = 'case when issues.ir_position is null then 1 else 0 end ASC, case when issues.ir_position is NULL then issues.id else issues.ir_position end ASC'
 
   def self.get_tasks_by_status(project, status, sprint, user)
-    tasks = []
     cond = ["issues.project_id = ? and status_id = ?", project.id, status]
-    unless sprint.nil?
-      if sprint == 'null'
-        cond[0] += ' and fixed_version_id is null'
-      else
-        cond[0] += ' and fixed_version_id = ?'
-        cond << sprint
-      end
+    if sprint == 'null'
+      cond[0] += ' and fixed_version_id is null'
+    elsif sprint
+      cond[0] += ' and fixed_version_id = ?'
+      cond << sprint
     end
-    unless user.nil?
+    if user
       cond[0] += ' and assigned_to_id = ?'
       user = User.current.id if user == 'current'
       cond << user
