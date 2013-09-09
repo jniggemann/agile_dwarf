@@ -78,6 +78,21 @@
       <div class="time_list fr">
       </div>
     </div>
+
+    <div class="clearfix fr users_stats">
+      <% @backlog_fields_points.each do |type, users| %>
+        <div data-type-id='<%= type.id %>'>
+          <b><%= type.name %>:</b>
+          <% users.each do |user, points| %>
+            <div class='clearfix user_points' data-user-name='<%= user.name %>'>
+              <span class='fl'><%= user.name %>: </span>
+              <span class='fr'><%= points %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
   </div>
 
   <div class='sprints_column' id="sprints_sprints">

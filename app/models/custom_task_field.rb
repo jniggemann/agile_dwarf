@@ -19,4 +19,8 @@ class CustomTaskField < ActiveRecord::Base
       end
     end
   end
+
+  def self.backlog_tasks(project = nil)
+    SprintsTasks.get_backlog(project).inject([]) { |s, i| s | i.custom_task_fields }
+  end
 end

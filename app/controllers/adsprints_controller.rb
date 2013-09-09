@@ -20,6 +20,20 @@ class AdsprintsController < ApplicationController
     @project_id = @project.id
     @plugin_path = File.join(Redmine::Utils.relative_url_root, 'plugin_assets', 'agile_dwarf')
     @closed_status = Setting.plugin_agile_dwarf["stclosed"].to_i
+
+    # Calculate the points for each custom_task_field for each user
+    @backlog_fields_points = {}
+    @backlog.each do |task|
+      task.custom_task_fields.each do |field|
+        # FIXME: replace with sql join
+        type = field.type
+        value = field.value
+        user = task.assigned_to
+        @backlog_fields_points[type] ||= {}
+        @backlog_fields_points[type][user] ||= 0
+        @backlog_fields_points[type][user] += value || 0
+      end
+    end
   end
 
   private

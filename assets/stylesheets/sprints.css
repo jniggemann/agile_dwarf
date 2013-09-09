@@ -247,3 +247,7 @@
   display: table;
   clear: both;
 }
+
+.users_stats {
+  width: 300px;
+}
