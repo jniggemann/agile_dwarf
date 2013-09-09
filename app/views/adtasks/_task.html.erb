@@ -1,12 +1,17 @@
 <div id="task.<%=h task.id %>"
-		<% if task.due_date < Date.today %> style = "background-color: lightpink;" <% end %> 
-		<% if task.due_date == Date.today %> style = "background-color: lightyellow;" <% end %>
+		<% if task.due_date %>
+      <% if task.due_date < Date.today %>
+        style = "background-color: lightpink;"
+      <% elsif task.due_date == Date.today %>
+        style = "background-color: lightyellow;"
+      <% end %>
+    <% end %>
 		 class="sc_task  sc_task_tracker_<%= Tracker.find(task.tracker_id).name %> <%= Tracker.find(task.tracker_id).name %>  <%= task.children.count  == 0 or Tracker.find(task.tracker_id).name != 'UserStorie' ? '' : 'sc_task_hide' %>">
 
   <% if task.parent || task.tracker_id == Tracker.where(name: "UserStory").first.try(:id) %>
       <% (task.parent || task).tap do |user_story| %>
       <div class="task_parent">
-        User Story: 
+        User Story:
         <span class="task_no">#<%= link_to user_story.id, :controller => 'issues', :action => 'show', :id => user_story.id %></span>
         <span><%= user_story.subject %></span>
       </div>
