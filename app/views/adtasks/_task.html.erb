@@ -6,7 +6,7 @@
         style = "background-color: lightyellow;"
       <% end %>
     <% end %>
-		 class="sc_task  sc_task_tracker_<%= Tracker.find(task.tracker_id).name %> <%= Tracker.find(task.tracker_id).name %>  <%= task.children.count  == 0 or Tracker.find(task.tracker_id).name != 'UserStorie' ? '' : 'sc_task_hide' %>">
+		 class="clearfix sc_task  sc_task_tracker_<%= Tracker.find(task.tracker_id).name %> <%= Tracker.find(task.tracker_id).name %> <%= task.children.count  == 0 or Tracker.find(task.tracker_id).name != 'UserStorie' ? '' : 'sc_task_hide' %>">
 
   <% if task.parent || task.tracker_id == Tracker.where(name: "UserStory").first.try(:id) %>
       <% (task.parent || task).tap do |user_story| %>
@@ -18,7 +18,7 @@
       <%- end %>
     <%- end %>
 
-  <div style="padding-left: 30px; padding-top: 10px;">
+  <div class="clearfix" style="padding-left: 30px; padding-top: 10px;">
     <div class="fl task_no">#<%= link_to task.id, :controller => 'issues', :action => 'show', :id => task %></div>
     <div class="fl task_desc"><img src="<%= File.join(@plugin_path, 'images', 'task_desc.png') %>"/></div>
     <div class="fl task_tracker_name"><%=h Tracker.find(task.tracker_id).name %>&nbsp;-&nbsp;</div>
@@ -36,36 +36,26 @@
         <div class="measure fl">h</div>
     </div>
     <div class="task_add_spent fr">
-      <div class="task_add_spent_value fr">X</div>
-      <div class="measure fr">+</div>
+      <a href= <%= new_issue_time_entry_path(task) %>>
+        <div class="task_add_spent_value fr">X</div>
+        <div class="measure fr">+</div>
+      </a>
     </div>
     <div class="fr task_estimate_params">
         <div class="measure fr">h</div>
         <div class="fr task_spent_time"><%=h task.spent || '0' %></div>
     </div>
   </div>
-		<a href= <%= new_issue_time_entry_path(task) %>>
-		</a>
-  <div class="task_doneratio_value fl"><%=h task.done_ratio || '0' %></div>
-  <div class="fl task_estimate_params">
-      <div class="measure fl">%</div>
-      <div class="fl task_estimate_sep">/</div>
-      <div class="task_estimate fl"><%=h task.estimated_hours || l(:label_sprints_placeholder_estimated) %></div>
-      <div class="measure fl">h</div>
-  </div>
-  <div style="width: 20px;" class="fl">&nbsp;</div>
-  <div class="fl task_estimate_params"><%= format_date(task.start_date) %></div>
-  <div style="width: 20px;" class="fl">&nbsp;</div>
-  <div class="fl task_estimate_params"><%= format_date(task.due_date) %></div>
-  <div class="task_add_spent fr">
-    <a href= <%= new_issue_time_entry_path(task) %>>
-	<div class="task_add_spent_value fr">X</div>
-    <div class="measure fr">+</div>
-	</a>
-  </div>
-  <div class="fr task_estimate_params">
-      <div class="measure fr">h</div>
-      <div class="fr task_spent_time"><%=h task.spent || '0' %></div>
+  <div class="fr task_estimate_params"><%= format_date(task.due_date) %></div>
+  <div style="width: 20px;" class="fr">&nbsp;</div>
+  <div class="fr task_estimate_params"><%= format_date(task.start_date) %></div>
+  <div class="clearfix">
+    <% task.custom_task_fields.each do |field| %>
+      <div class="clearfix task_custom_field" data-type-id="<%= field.type.id %>">
+        <span class="name fl"><%= field.type %>: </span>
+        <span class="value fl"><%= field.value%></span>
+      </div>
+    <% end %>
   </div>
 
 </div>

@@ -122,6 +122,18 @@
                 },
                 show: {solo: true}
             });
+
+            // custom fields
+            el.parent().find('.task_custom_field').each(function (index, element) {
+              var edit = $(element).children('span.value');
+              var type_id = $(element).attr('data-type-id');
+              edit.editable('/sprint_custom_fields?type_id=' + type_id, $.extend({
+                method: 'PUT',
+                name: 'value',
+                type: 'ptext',
+                placeholder: Sprints.l('task_custom_field_placeholder')
+              }, taskInlineOpts));
+            })
         };
 
         // Column object
