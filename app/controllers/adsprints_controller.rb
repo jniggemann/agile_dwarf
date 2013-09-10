@@ -34,6 +34,34 @@ class AdsprintsController < ApplicationController
         @backlog_fields_points[type][user] += value || 0
       end
     end
+
+    @sprints_fields_points = {}
+    sprints_tasks = @sprints.inject([]) { |s, i| s += i.tasks }
+    sprints_tasks.each do |task|
+      task.custom_task_fields.each do |field|
+        # FIXME: replace with sql join
+        type = field.type
+        value = field.value
+        user = task.assigned_to
+        @sprints_fields_points[type] ||= {}
+        @sprints_fields_points[type][user] ||= 0
+        @sprints_fields_points[type][user] += value || 0
+      end
+    end
+
+    @releases_fields_points = {}
+    releases_tasks = @releases.inject([]) { |s, i| s += i.tasks }
+    releases_tasks.each do |task|
+      task.custom_task_fields.each do |field|
+        # FIXME: replace with sql join
+        type = field.type
+        value = field.value
+        user = task.assigned_to
+        @releases_fields_points[type] ||= {}
+        @releases_fields_points[type][user] ||= 0
+        @releases_fields_points[type][user] += value || 0
+      end
+    end
   end
 
   private

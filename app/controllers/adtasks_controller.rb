@@ -36,7 +36,21 @@ class AdtasksController < ApplicationController
     IssueStatus.find_all_by_id(status_ids).each {|x| @statuses[x.id] = x.name}
     @columns = []
     for i in 0 .. colcount - 1
-      @columns << {:tasks => SprintsTasks.get_tasks_by_status(@project, status_ids[i], sprint, user), :id => status_ids[i]}
+      tasks = SprintsTasks.get_tasks_by_status(@project, status_ids[i], sprint, user)
+      points = {}
+      tasks.each do |task|
+        task.custom_task_fields.each do |field|
+          # FIXME: replace with sql join
+          type = field.type
+          value = field.value
+          user = task.assigned_to
+          points[type] ||= {}
+          points[type][user] ||= 0
+          points[type][user] += value || 0
+        end
+      end
+      column = { tasks: tasks, id: status_ids[i], points: points }
+      @columns << column
     end
   end
 

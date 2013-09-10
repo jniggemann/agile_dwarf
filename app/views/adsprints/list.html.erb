@@ -98,6 +98,19 @@
   <div class='sprints_column' id="sprints_sprints">
     <div></div>
     <%= render :partial => "sprint", :collection => @sprints %>
+    <div class="clearfix fr users_stats">
+      <% @sprints_fields_points.each do |type, users| %>
+        <div data-type-id='<%= type.id %>'>
+          <b><%= type.name %>:</b>
+          <% users.each do |user, points| %>
+            <div class='clearfix user_points' data-user-name='<%= user ? user.name : 'not assigned' %>'>
+              <span class='fl'><%= user ? user.name : 'not assigned' %>: </span>
+              <span class='fr'><%= points %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 
