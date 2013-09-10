@@ -84,8 +84,8 @@
         <div data-type-id='<%= type.id %>'>
           <b><%= type.name %>:</b>
           <% users.each do |user, points| %>
-            <div class='clearfix user_points' data-user-name='<%= user.name %>'>
-              <span class='fl'><%= user.name %>: </span>
+            <div class='clearfix user_points' data-user-name='<%= user ? user.name : 'not assigned' %>'>
+              <span class='fl'><%= user ? user.name : 'not assigned' %>: </span>
               <span class='fr'><%= points %></span>
             </div>
           <% end %>
