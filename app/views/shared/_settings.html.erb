@@ -62,12 +62,18 @@
   <p>
     <%= label_tag l(:label_settings_check_custom_fields) %>
   </p>
-  <% CustomField.all.each do |cf| %>
-    <p>
-      <% checked = Setting.plugin_agile_dwarf['custom_fields'] ? Setting.plugin_agile_dwarf['custom_fields'].include?(cf.id.to_s) : false %>
-      <%= label_tag cf.name %>
-      <%= check_box_tag("settings[custom_fields][]", cf.id, checked, {multiple: true}) %>
-    </p>
+  <% custom_fields = CustomField.where(type: 'IssueCustomField') %>
+  <% if custom_fields.any? %>
+    <% CustomField.all.each do |cf| %>
+      <p>
+        <% checked = Setting.plugin_agile_dwarf['custom_fields'] ? Setting.plugin_agile_dwarf['custom_fields'].include?(cf.id.to_s) : false %>
+        <%= label_tag "custom_field_#{cf.id}", cf.name %>
+        <%= check_box_tag("settings[custom_fields][]", cf.id, checked, {multiple: true, id: "custom_field_#{cf.id}"}) %>
+      </p>
+    <% end %>
+  <% else %>
+    There is no custom fields to choose.
+  <%= link_to 'create custom field', new_custom_field_path(:type => 'IssueCustomField') %>
   <% end %>
   </p>
 </div>
