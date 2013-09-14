@@ -42,4 +42,7 @@ en:
   label_settings_column3status: Task Status for 3th column
   label_settings_column4status: Task Status for 4th column
   label_settings_column5status: Task Status for 5th column
+  label_settings_column6status: Task Status for 6th column
+  label_settings_column7status: Task Status for 7th column
   label_settings_columncount: Number of columns
+  label_settings_check_custom_fields: 'Used custom fields for tasks:'

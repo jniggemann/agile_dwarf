@@ -57,3 +57,17 @@
       <%= select_tag("settings[stcolumn7]", options_from_collection_for_select(IssueStatus.all, :id, :name, Setting.plugin_agile_dwarf['stcolumn7'].to_i)) %>
     </p>
 </div>
+
+<div id='select_custom_fields'>
+  <p>
+    <%= label_tag l(:label_settings_check_custom_fields) %>
+  </p>
+  <% CustomField.all.each do |cf| %>
+    <p>
+      <% checked = Setting.plugin_agile_dwarf['custom_fields'] ? Setting.plugin_agile_dwarf['custom_fields'].include?(cf.id.to_s) : false %>
+      <%= label_tag cf.name %>
+      <%= check_box_tag("settings[custom_fields][]", cf.id, checked, {multiple: true}) %>
+    </p>
+  <% end %>
+  </p>
+</div>

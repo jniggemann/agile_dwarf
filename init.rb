@@ -23,6 +23,7 @@ Redmine::Plugin.register :agile_dwarf do
       :stcolumn3 => 3,
       :stcolumn4 => 1,
       :stcolumn5 => 2,
+      :custom_fields => []
   }, :partial => 'shared/settings'
 
   permission :all_sprints, { :all_sprints => [:index]}
