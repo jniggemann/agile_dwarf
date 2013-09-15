@@ -39,11 +39,9 @@ class SprintsTasks < Issue
       end
     end
 
-    tasks = [].tap do |t|
-      SprintsTasks.find(:all, :select => 'issues.*, trackers.name AS t_name', :order => SprintsTasks::ORDER, :conditions => cond, :joins => :status, :joins => "left join issue_statuses on issue_statuses.id = status_id left join trackers on trackers.id = tracker_id", :include => :assigned_to).each{|task| t << task}
-    end
+    tasks = SprintsTasks.find(:all, :select => 'issues.*, trackers.name AS t_name', :order => SprintsTasks::ORDER, :conditions => cond, :joins => :status, :joins => "left join issue_statuses on issue_statuses.id = status_id left join trackers on trackers.id = tracker_id", :include => :assigned_to)
 
-    return filter_out_user_stories_with_children tasks
+    filter_out_user_stories_with_children tasks
   end
 
   def self.filter_out_user_stories_with_children(tasks)
@@ -63,7 +61,7 @@ class SprintsTasks < Issue
   end
 
   def self.get_backlog(project = nil)
-    return SprintsTasks.get_tasks_by_sprint(project, 'null')
+    SprintsTasks.get_tasks_by_sprint(project, 'null')
   end
 
   def move_after(prev_id)

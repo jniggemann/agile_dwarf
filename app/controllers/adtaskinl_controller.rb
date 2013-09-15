@@ -23,7 +23,7 @@ class AdtaskinlController < ApplicationController
   def create
     attribs = params.select{|k,v| k != 'id' and SprintsTasks.column_names.include? k }
     attribs = Hash[*attribs.flatten]
-    attribs['tracker_id'] = attribs['tracker_id'] || Setting.plugin_agile_dwarf['tracker']
+    attribs['tracker_id'] ||= Setting.plugin_agile_dwarf['tracker']
     attribs['author_id'] = User.current.id
     task = SprintsTasks.new(attribs)
     begin
