@@ -95,4 +95,9 @@ class SprintsTasks < Issue
     self.init_journal(User.current)
     update_attributes attribs
   end
+
+  def self.available_custom_fields(project)
+    enabled_custom_fields_ids = Setting.plugin_agile_dwarf["custom_fields_ids"].map(&:to_i)
+    project.all_issue_custom_fields.select { |cf| enabled_custom_fields_ids.include? cf.id }
+  end
 end
