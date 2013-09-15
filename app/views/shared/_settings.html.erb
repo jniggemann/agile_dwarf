@@ -66,9 +66,9 @@
   <% if custom_fields.any? %>
     <% CustomField.all.each do |cf| %>
       <p>
-        <% checked = Setting.plugin_agile_dwarf['custom_fields'] ? Setting.plugin_agile_dwarf['custom_fields'].include?(cf.id.to_s) : false %>
+        <% checked = Setting.plugin_agile_dwarf['custom_fields_ids'] ? Setting.plugin_agile_dwarf['custom_fields_ids'].include?(cf.id.to_s) : false %>
         <%= label_tag "custom_field_#{cf.id}", cf.name %>
-        <%= check_box_tag("settings[custom_fields][]", cf.id, checked, {multiple: true, id: "custom_field_#{cf.id}"}) %>
+        <%= check_box_tag("settings[custom_fields_ids][]", cf.id, checked, {multiple: true, id: "custom_field_#{cf.id}"}) %>
       </p>
     <% end %>
   <% else %>
