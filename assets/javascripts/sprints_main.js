@@ -209,13 +209,18 @@
         isNew = !!isNew;
         if (isNew)
         {
-            $('.task_subject', el).editable(Sprints.getUrl('taskinline'), $.extend({name: 'subject', type: 'ptext', placeholder: Sprints.l('task_subject_placeholder'), callback: function(value, settings)
-            {
-                var inlineEl = $(this);
-                inlineEl.editable('destroy');
-                addTaskInlines();
-                task.element.removeClass('new');
-            }}, taskInlineOpts)).click();
+            $('.task_subject', el).editable(Sprints.getUrl('taskinline'),
+                $.extend({
+                    name: 'subject',
+                    type: 'ptext',
+                    placeholder: Sprints.l('task_subject_placeholder'),
+                    callback: function(value, settings) {
+                        var inlineEl = $(this);
+                        inlineEl.editable('destroy');
+                        addTaskInlines();
+                        task.element.removeClass('new');
+                    }
+                },taskInlineOpts)).click();
         } else
             addTaskInlines(isNew);
         function addTaskInlines()
