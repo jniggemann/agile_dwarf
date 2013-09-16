@@ -36,38 +36,16 @@
         <div class="measure fl">h</div>
     </div>
     <div class="task_add_spent fr">
-      <div class="task_add_spent_value fr">X</div>
-      <div class="measure fr">+</div>
+      <%= link_to new_issue_time_entry_path(task) do %>
+        <div class="task_add_spent_value fr">X</div>
+        <div class="measure fr">+</div>
+      <% end %>
     </div>
     <div class="fr task_estimate_params">
         <div class="measure fr">h</div>
         <div class="fr task_spent_time"><%=h task.spent || '0' %></div>
     </div>
   </div>
-		<a href= <%=  new_issue_time_entry_path(task) %>>
-		</a>
-  <div class="task_doneratio_value fl"><%=h task.done_ratio || '0' %></div>
-  <div class="fl task_estimate_params">
-      <div class="measure fl">%</div>
-      <div class="fl task_estimate_sep">/</div>
-      <div class="task_estimate fl"><%=h task.estimated_hours || l(:label_sprints_placeholder_estimated) %></div>
-      <div class="measure fl">h</div>
-  </div>
-  <div style="width: 20px;" class="fl">&nbsp;</div>
-  <div class="fl task_estimate_params"><%= format_date(task.start_date) %></div>
-  <div style="width: 20px;" class="fl">&nbsp;</div>
-  <div class="fl task_estimate_params"><%= format_date(task.due_date) %></div>
-  <div class="task_add_spent fr">
-    <a href= <%=  new_issue_time_entry_path(task) %>>
-	<div class="task_add_spent_value fr">X</div>
-    <div class="measure fr">+</div>
-	</a>
-  </div>
-  <div class="fr task_estimate_params">
-      <div class="measure fr">h</div>
-      <div class="fr task_spent_time"><%=h task.spent || '0' %></div>
-  </div>
-
 </div>
 
 
