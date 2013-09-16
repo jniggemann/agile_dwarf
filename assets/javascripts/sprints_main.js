@@ -385,7 +385,7 @@
                         continue;
                     times += '<div class="sprint_time">' + owner + ': ' + data[owner] + '</div>';
                 }
-                sprint.element.children('.time_list').html(times);
+                sprint.element.find('.time_list').html(times);
                 return obj;
             };
 

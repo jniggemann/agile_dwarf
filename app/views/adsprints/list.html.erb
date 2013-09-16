@@ -66,15 +66,31 @@
     <%= render :partial => "sprint", :collection => @releases %>
 
     <div class='sprints_panel'>
-      <div class="sprints_panel_header">
+      <div class="clearfix sprints_panel_header">
         <h3 class="fl"><%= l(:label_backlog) %></h3>
         <img class="fr create_sprint" src="<%= File.join(@plugin_path, 'images', 'add_sprint.png') %>" title="<%= l(:label_sprints_title_add_sprint) %>"/>
         <img class="fr add_task" src="<%= File.join(@plugin_path, 'images', 'add_task.png') %>" title="<%= l(:label_sprints_title_add_task) %>"/>
       </div>
-      <div class="task_list" id="column.backlog">
-        <%= render :partial => "task", :collection => @backlog %>
+      <div class="clearfix">
+        <div class="task_list" id="column.backlog">
+          <%= render :partial => "task", :collection => @backlog %>
+        </div>
+        <div class="time_list fr"></div>
       </div>
-      <div class="time_list fr">
+      <div class="fl clearfix users_stats">
+        <% @backlog_points.each do |type, users| %>
+          <div data-type-id='<%= type.id %>'>
+            <b><%= type.name %>:</b>
+            <% users.each do |user, points| %>
+              <% user_name = user ? user.name : 'unassigned' %>
+              <% user_id = user ? user.id : 'unassigned' %>
+              <div class='clearfix user_points' data-user-id='<%= user_id %>' data-user-name='<%= user_name %>'>
+                <span class='fl'><%= link_to_if user, user_name, user %>: </span>
+                <span class='fr'><%= points %> pts</span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -82,6 +98,21 @@
   <div class='sprints_column' id="sprints_sprints">
     <div></div>
     <%= render :partial => "sprint", :collection => @sprints %>
+    <div class="fl clearfix users_stats">
+      <% @sprints_points.each do |type, users| %>
+        <div data-type-id='<%= type.id %>'>
+          <b><%= type.name %>:</b>
+          <% users.each do |user, points| %>
+            <% user_name = user ? user.name : 'unassigned' %>
+            <% user_id = user ? user.id : 'unassigned' %>
+            <div class='clearfix user_points' data-user-id='<%= user_id %>' data-user-name='<%= user_name %>'>
+              <span class='fl'><%= link_to_if user, user_name, user %>: </span>
+              <span class='fr'><%= points %> pts</span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 

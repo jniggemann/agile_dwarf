@@ -36,7 +36,24 @@ class AdtasksController < ApplicationController
     IssueStatus.find_all_by_id(status_ids).each {|x| @statuses[x.id] = x.name}
     @columns = []
     for i in 0 .. colcount - 1
-      @columns << {:tasks => SprintsTasks.get_tasks_by_status(@project, status_ids[i], sprint, user), :id => status_ids[i]}
+      tasks = SprintsTasks.get_tasks_by_status(@project, status_ids[i], sprint, user)
+      points = {}
+      tasks.each do |task|
+        user = task.assigned_to
+        # We process only int custom fields
+        task.custom_field_values.each do |cfv|
+          if cfv.custom_field.field_format == 'int'
+            value = cfv.value.to_i
+            if value != 0
+              custom_field = cfv.custom_field
+              points[custom_field] ||= {}
+              points[custom_field][user] ||= 0
+              points[custom_field][user] += value
+            end
+          end
+        end
+      end
+      @columns << {:tasks => tasks, :id => status_ids[i], :points => points}
     end
   end
 

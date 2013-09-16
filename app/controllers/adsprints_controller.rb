@@ -21,6 +21,41 @@ class AdsprintsController < ApplicationController
     @plugin_path = File.join(Redmine::Utils.relative_url_root, 'plugin_assets', 'agile_dwarf')
     @closed_status = Setting.plugin_agile_dwarf["stclosed"].to_i
     @available_custom_fields = SprintsTasks.available_custom_fields(@project)
+
+    @backlog_points = {}
+    @backlog.each do |task|
+      user = task.assigned_to
+      # We process only int custom fields
+      task.custom_field_values.each do |cfv|
+        if cfv.custom_field.field_format == 'int'
+          value = cfv.value.to_i
+          if value != 0
+            custom_field = cfv.custom_field
+            @backlog_points[custom_field] ||= {}
+            @backlog_points[custom_field][user] ||= 0
+            @backlog_points[custom_field][user] += value
+          end
+        end
+      end
+    end
+    @sprints_points = {}
+    @sprints.each do |sprint|
+      sprint.tasks.each do |task|
+        user = task.assigned_to
+        # We process only int custom fields
+        task.custom_field_values.each do |cfv|
+          if cfv.custom_field.field_format == 'int'
+            value = cfv.value.to_i
+            if value != 0
+              custom_field = cfv.custom_field
+              @sprints_points[custom_field] ||= {}
+              @sprints_points[custom_field][user] ||= 0
+              @sprints_points[custom_field][user] += value
+            end
+          end
+        end
+      end
+    end
   end
 
   private
