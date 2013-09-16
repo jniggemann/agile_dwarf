@@ -243,6 +243,7 @@
                     task.setOwner(res);
                     Sprints.Coop.update(task.id, 'task', 'owner', res);
                 }}, taskInlineOpts));
+
             $('.custom_fields .custom_field', el).each(function (index, element) {
                 var edit = $(element).children('.value');
                 var custom_field_id = $(element).attr('data-custom-field-id');

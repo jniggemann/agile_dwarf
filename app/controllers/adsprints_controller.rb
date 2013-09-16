@@ -15,8 +15,7 @@ class AdsprintsController < ApplicationController
     @sprints.each {|s| s.tasks = SprintsTasks.get_tasks_by_sprint(@project, s.id) }
     @releases.each {|s| s.tasks = SprintsTasks.get_tasks_by_sprint(@project, s.id) }
 
-    @assignables = {}
-    @project.assignable_users.each{|u| @assignables[u.id] = u.name}
+    @assignables = @project.assignable_users.inject({}) {|res, u| res[u.id] = u.name; res }
     @project_id = @project.id
     @plugin_path = File.join(Redmine::Utils.relative_url_root, 'plugin_assets', 'agile_dwarf')
     @closed_status = Setting.plugin_agile_dwarf["stclosed"].to_i
