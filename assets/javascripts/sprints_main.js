@@ -238,6 +238,31 @@
                     task.setOwner(res);
                     Sprints.Coop.update(task.id, 'task', 'owner', res);
                 }}, taskInlineOpts));
+            $('.custom_fields .custom_field', el).each(function (index, element) {
+                var edit = $(element).children('.value');
+                var custom_field_id = $(element).attr('data-custom-field-id');
+                edit.editable(function (value) {
+                    var custom_field_values = {};
+                    custom_field_values[custom_field_id] = value;
+                    var data = { 'issue': { 'custom_field_values': custom_field_values } }
+                    var result = $.ajax({
+                       url: Sprints.getUrl('issues') + '/' + task.id,
+                       type: "PUT",
+                       data: data,
+                       dataType : "json",
+                       complete : function (xhr, textStatus) {
+                        if (textStatus != 'success') { console.log([xhr, textStatus])};
+                       }
+                   });
+                   return(value);
+                },
+                {
+                    method: 'PUT',
+                    type: 'ptext',
+                    name: 'issue[custom_field_values]['+custom_field_id+']'
+                });
+                $(element).show();
+            })
         }
 
         // tooltip

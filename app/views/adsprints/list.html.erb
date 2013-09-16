@@ -112,12 +112,14 @@
         <div class="task_estimate fl"></div>
         <div class="task_owner fr"></div>
       </div>
-      <% @available_custom_fields.each do |cf| %>
-        <div class="custom_field clearfix">
-          <div class="fl name"><%= cf.name %>:</div>
-          <div class="fl value"><%= cf.default_value %></div>
-        </div>
-      <% end %>
+      <div class='custom_fields'>
+        <% @available_custom_fields.each do |cf| %>
+          <div class="custom_field clearfix hidden" data-custom-field-id=<%= cf.id %>>
+            <div class="fl name"><%= cf.name %>:</div>
+            <div class="fl value"><%= cf.default_value %></div>
+          </div>
+        <% end %>
+      </div>
     </div>
 </div>
 

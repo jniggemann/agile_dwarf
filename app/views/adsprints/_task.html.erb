@@ -22,11 +22,13 @@
         <span class="fr task_owner"><%=h task.assigned_to %></span>
         <span class="fr">Assigned to:&nbsp;</span>
       </div>
-      <% task.custom_field_values.each do |cfv| %>
-        <div class="custom_field clearfix">
-          <div class="fl name"><%= cfv.custom_field.name %>:</div>
-          <div class="fl value"><%= cfv.value %></div>
-        </div>
-      <% end %>
+      <div class="custom_fields">
+        <% task.custom_field_values.each do |cfv| %>
+          <div class="custom_field clearfix" data-custom-field-id=<%= cfv.custom_field.id %>>
+            <div class="fl name"><%= cfv.custom_field.name %>:</div>
+            <div class="fl value"><%= cfv.value %></div>
+          </div>
+        <% end %>
+      </div>
     </div>
 </div>
