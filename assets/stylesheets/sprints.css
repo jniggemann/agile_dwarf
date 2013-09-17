@@ -72,6 +72,11 @@
 }
 .column-5 .task_panel {
   width: 17%;
+.column-6 .task_panel {
+  width: 14.5%;
+}
+.column-7 .task_panel {
+  width: 12.1%;
 }
 
 .task_panel h3, .sprints_panel h3
