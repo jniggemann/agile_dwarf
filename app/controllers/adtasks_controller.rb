@@ -17,11 +17,7 @@ class AdtasksController < ApplicationController
     if params[:sprint]
       @selected = params[:sprint]
     else
-        @selected = 'all'
-      # if @sprints.any?
-      #   @selected = @sprints.first.id.to_s
-      # else
-      # end
+      @selected = 'all'
     end
 
     case @selected
