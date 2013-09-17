@@ -22,7 +22,7 @@
             var time = el.find('.task_estimate').text();
             time = +time || 0;
             this.est = time;
-            this.done = (+el.children('.task_doneratio_value').text() / 100) * time;
+            this.done = (+el.find('.task_doneratio_value').text() / 100) * time;
             this.spent = +el.find('.task_spent_time').text();
             this.owner = el.find('.task_owner').text();
 
@@ -37,7 +37,7 @@
             $('.task_doneratio_value', el).editable(Sprints.getUrl('taskinline'), $.extend({name: 'done_ratio', type: 'ptext', width: 50, callback: function (res, settings)
             {
                 res = +res;
-                $(this).siblings('.task_row').children('.task_doneratio_slide').slider('value', res);
+                $(this).siblings('.task_row').find('.task_doneratio_slide').slider('value', res);
                 var timeNew = (res / 100) * task.est;
                 panel.times.updateTaskDone(task, timeNew).update();
                 task.done = timeNew;
@@ -105,7 +105,7 @@
             // add spent button
             $('.task_add_spent', el).click(function ()
             {
-                $(this).children('.task_add_spent_value').trigger('addspent');
+                $(this).find('.task_add_spent_value').trigger('addspent');
             });
 
             // tooltip
@@ -226,7 +226,7 @@
                             done_perc = Math.round((ownerData.done * 100) / ownerData.est);
                         times += '<div class="sprint_time">' + owner + ': ' + done_perc + '% / ' + ownerData.est + 'h<span class="fr">' + ownerData.spent + 'h</span></div>';
                     }
-                    column.element.children('.time_list').html(times);
+                    column.element.find('.time_list').html(times);
                     return obj;
                 };
 

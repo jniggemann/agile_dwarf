@@ -146,11 +146,11 @@
         this.id = el.prop('id').substr('task.'.length);
 
         // task properties
-        this.owner = el.children('.task_owner').text();
-        this.subject = el.children('.task_subject').text();
+        this.owner = el.find('.task_owner').text();
+        this.subject = el.find('.task_subject').text();
         this.pos = el.index();
         this.closed = el.hasClass('closed_task');
-        var time = el.children('.task_estimate').text();
+        var time = el.find('.task_estimate').text();
         time = +time || 0;
         this.time = time;
 
@@ -158,13 +158,13 @@
         this.setSubject = function (val, redraw)
         {
             if (typeof redraw != 'undefined')
-                el.children('.task_subject').text(val);
+                el.find('.task_subject').text(val);
             task.subject = val;
         };
         this.setTime = function (val, redraw)
         {
             if (typeof redraw != 'undefined')
-                el.children('.task_estimate').text(val);
+                el.find('.task_estimate').text(val);
             var timeNew = +val || 0;
             sprint.times.updateTaskTime(task, timeNew).update();
             task.time = timeNew;
@@ -172,7 +172,7 @@
         this.setOwner = function (val, redraw)
         {
             if (typeof redraw != 'undefined')
-                el.children('.task_owner').text(val);
+                el.find('.task_owner').text(val);
             sprint.times.updateTaskOwner(task, val).update();
             task.owner = val;
         };
@@ -355,6 +355,7 @@
 
             obj.addTask = function (task)
             {
+                console.log(task.owner)
                 if (!checkOwner(task.owner))
                     return obj;
                 data[task.owner] += task.time;
@@ -384,12 +385,11 @@
                 {
                     if (!data.hasOwnProperty(owner))
                         continue;
-                    times += '<div class="sprint_time">' + owner + ': ' + data[owner] + '</div>';
+                    times += '<div class="sprint_time">' + owner + ': ' + data[owner] + ' h</div>';
                 }
                 sprint.element.find('.time_list').html(times);
                 return obj;
             };
-
             return obj;
         })();
 
@@ -426,6 +426,7 @@
                 }
             });
         });
+
 
         // "fold" button
         $('.fold_sprint', el).on('click', function ()
