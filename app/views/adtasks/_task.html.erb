@@ -18,7 +18,7 @@
       <%- end %>
     <%- end %>
 
-  <div style="padding-left: 30px; padding-top: 10px;">
+  <div style="padding-left: 1.5%; padding-top: 10px;">
     <div class="fl task_no">#<%= link_to task.id, :controller => 'issues', :action => 'show', :id => task %></div>
     <div class="fl task_desc"><img src="<%= File.join(@plugin_path, 'images', 'task_desc.png') %>"/></div>
     <div class="fl task_tracker_name"><%=h Tracker.find(task.tracker_id).name %>&nbsp;-&nbsp;</div>
