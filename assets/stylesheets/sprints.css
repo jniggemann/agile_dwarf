@@ -249,9 +249,10 @@
 }
 
 .clearfix:after {
-  content: "";
-  display: table;
-  clear: both;
+    content: "";
+    display: table;
+    clear: both;
+}
 
 .users_stats {
     padding-left: 5%;

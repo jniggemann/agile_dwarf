@@ -13,6 +13,7 @@ class Sprints < Version
         scoped(:order => 'ir_start_date ASC, ir_end_date ASC', :conditions => [ "status = 'open'"])
       end
     end
+
     def all_sprints(project = nil)
       if project
         scoped(:order => 'ir_start_date ASC, ir_end_date ASC', :conditions => [ "project_id IN (?) OR sharing = 'system'", [project.id, project.parent_id].compact ])
