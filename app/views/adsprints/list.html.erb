@@ -98,21 +98,6 @@
   <div class='sprints_column' id="sprints_sprints">
     <div></div>
     <%= render :partial => "sprint", :collection => @sprints %>
-    <div class="fl clearfix users_stats">
-      <% @sprints_points.each do |type, users| %>
-        <div data-type-id='<%= type.id %>'>
-          <b><%= type.name %>:</b>
-          <% users.each do |user, points| %>
-            <% user_name = user ? user.name : 'unassigned' %>
-            <% user_id = user ? user.id : 'unassigned' %>
-            <div class='clearfix user_points' data-user-id='<%= user_id %>' data-user-name='<%= user_name %>'>
-              <span class='fl'><%= link_to_if user, user_name, user %>: </span>
-              <span class='fr'><%= points %> pts</span>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
   </div>
 </div>
 

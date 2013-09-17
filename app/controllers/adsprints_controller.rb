@@ -39,6 +39,7 @@ class AdsprintsController < ApplicationController
     end
     @sprints_points = {}
     @sprints.each do |sprint|
+      @sprints_points[sprint] = {} if sprint.tasks.any?
       sprint.tasks.each do |task|
         user = task.assigned_to
         # We process only int custom fields
@@ -47,9 +48,9 @@ class AdsprintsController < ApplicationController
             value = cfv.value.to_i
             if value != 0
               custom_field = cfv.custom_field
-              @sprints_points[custom_field] ||= {}
-              @sprints_points[custom_field][user] ||= 0
-              @sprints_points[custom_field][user] += value
+              @sprints_points[sprint][custom_field] ||= {}
+              @sprints_points[sprint][custom_field][user] ||= 0
+              @sprints_points[sprint][custom_field][user] += value
             end
           end
         end
