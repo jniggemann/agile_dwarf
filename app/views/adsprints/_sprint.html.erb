@@ -17,6 +17,7 @@
   <div class="fl clearfix users_stats">
     <% if @sprints_points[sprint] %>
       <% @sprints_points[sprint].each do |type, users| %>
+        <% next unless type.is_a? CustomField %>
         <div data-type-id='<%= type.id %>'>
           <b><%= type.name %>:</b>
           <% users.each do |user, points| %>
@@ -29,6 +30,7 @@
           <% end %>
         </div>
       <% end %>
+      <span class='fl'>Total: <%= @sprints_points[sprint][:sum] %> pts</span>
     <% end %>
     </div>
 </div>
