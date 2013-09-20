@@ -33,6 +33,8 @@ class AdsprintsController < ApplicationController
             @backlog_points[custom_field] ||= {}
             @backlog_points[custom_field][user] ||= 0
             @backlog_points[custom_field][user] += value
+            @backlog_points[custom_field][:sum] ||= 0
+            @backlog_points[custom_field][:sum] += value
           end
         end
       end
