@@ -58,6 +58,8 @@ class AdtasksController < ApplicationController
               points[custom_field] ||= {}
               points[custom_field][task.assigned_to] ||= 0
               points[custom_field][task.assigned_to] += value
+              points[custom_field][:sum] ||= 0
+              points[custom_field][:sum] += value
             end
           end
         end

@@ -41,7 +41,6 @@ class AdsprintsController < ApplicationController
     @sprints.each do |sprint|
       if sprint.tasks.any?
         @sprints_points[sprint] = {}
-        @sprints_points[sprint][:sum] = 0
         sprint.tasks.each do |task|
           user = task.assigned_to
           # We process only int custom fields
@@ -53,7 +52,8 @@ class AdsprintsController < ApplicationController
                 @sprints_points[sprint][custom_field] ||= {}
                 @sprints_points[sprint][custom_field][user] ||= 0
                 @sprints_points[sprint][custom_field][user] += value
-                @sprints_points[sprint][:sum] += value
+                @sprints_points[sprint][custom_field][:sum] ||= 0
+                @sprints_points[sprint][custom_field][:sum] += value
               end
             end
           end
