@@ -26,8 +26,10 @@
       <div class="task_subject clearfix" title="<%=h task.subject %>"><%=h task.subject %></div>
       <div class="task_row clearfix">
           <div class="task_doneratio_slide"></div>
-          <div class="task_owner fr"><%=h task.assigned_to %></div>
-          <div class="fr">Assigned to:&nbsp;</div>
+          <div class="clearfix fr">
+            <div class="fl">Assigned to:&nbsp;</div>
+            <div class="task_owner fr"><%=h task.assigned_to %></div>
+          </div>
       </div>
       <div class="task_doneratio_value fl clearfix"><%=h task.done_ratio || '0' %></div>
       <div class="fl task_estimate_params clearfix">
