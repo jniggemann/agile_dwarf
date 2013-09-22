@@ -268,7 +268,7 @@
                     name: 'issue[custom_field_values]['+custom_field_id+']'
                 });
                 $(element).show();
-            })
+            });
         }
 
         // tooltip
@@ -355,7 +355,6 @@
 
             obj.addTask = function (task)
             {
-                console.log(task.owner)
                 if (!checkOwner(task.owner))
                     return obj;
                 data[task.owner] += task.time;
