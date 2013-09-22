@@ -381,12 +381,15 @@
             obj.update = function ()
             {
                 var times = '';
+                var total_time = 0;
                 for (var owner in data)
                 {
                     if (!data.hasOwnProperty(owner))
                         continue;
-                    times += '<div class="sprint_time">' + owner + ': ' + data[owner] + ' h</div>';
+                    times += '<div class="sprint_time clearfix"><div class="fl">' + owner + ': </div><div class="fr">' + data[owner] + ' h</div></div>';
+                    total_time += data[owner];
                 }
+                times += '<div class="sprint_time clearfix"><div class="fl">Total: </div><div class="fr">' + total_time + ' h</div></div>';
                 sprint.element.find('.time_list').html(times);
                 return obj;
             };
