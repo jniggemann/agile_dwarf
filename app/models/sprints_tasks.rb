@@ -9,6 +9,9 @@ class SprintsTasks < Issue
     cond = ["issues.project_id = ? and status_id = ?", project.id, status]
     if sprint == 'null'
       cond[0] += ' and fixed_version_id is null'
+    elsif sprint == 'current'
+      cond[0] += ' and fixed_version_id = ?'
+      cond << Sprints.open_sprints(project).first.id
     elsif sprint
       cond[0] += ' and fixed_version_id = ?'
       cond << sprint

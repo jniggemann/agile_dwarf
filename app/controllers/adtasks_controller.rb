@@ -14,17 +14,15 @@ class AdtasksController < ApplicationController
     @assignables_list[""] = ""
 
     # filter values
-    if params[:sprint]
-      @selected = params[:sprint]
-    else
-      @selected = @sprints.first.id.to_s
-    end
+    @selected = params[:sprint] || 'current'
 
     case @selected
       when 'all'
         sprint = nil
       when 'none'
         sprint = 'null'
+      when 'current'
+        sprint = 'current'
       else
         sprint = @selected
     end

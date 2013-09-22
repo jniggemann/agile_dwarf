@@ -22,6 +22,7 @@ en:
   label_sprints_description_panel_header: Description
   label_sprints_select_all: All
   label_sprints_select_none: Not in sprint
+  label_sprints_select_current: Current sprint
   label_sprints_showclosed: Show closed sprints
   label_sprints_filter: Show sprint
   label_sprints_title_fold: Folding

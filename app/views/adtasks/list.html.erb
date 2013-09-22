@@ -45,6 +45,7 @@
       <select>
         <option <%= @selected == 'all' ? 'selected=selected' : '' %> value='all'><%= l(:label_sprints_select_all) %></option>
         <option <%= @selected == 'none' ? 'selected=selected' : '' %> value='none'><%= l(:label_sprints_select_none) %></option>
+        <option <%= @selected == 'current' ? 'selected=selected' : '' %> value='current'><%= l(:label_sprints_select_current) %></option>
         <%- @sprints.each do |s| %>
             <option value="<%= s.id %>" <%= @selected == s.id.to_s ? 'selected=selected' : '' %>><%= s.name %></option>
         <%- end %>
