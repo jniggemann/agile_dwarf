@@ -94,7 +94,7 @@ class SprintsTasks < Issue
       move_after(params[:prev])
     end
     self.init_journal(User.current)
-    update_attributes attribs
+    update_attributes! attribs
   end
 
   def self.available_custom_fields(project)
