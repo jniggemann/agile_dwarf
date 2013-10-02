@@ -26,8 +26,8 @@ Redmine::Plugin.register :agile_dwarf do
       :custom_fields_ids => []
   }, :partial => 'shared/settings'
 
-  permission :all_sprints, { :all_sprints => [:index]}
-  menu :application_menu, :all_sprints, { :controller => 'all_sprints', :action => 'index' }, :caption => :label_menu_all_sprints
+  # permission :all_sprints, { :all_sprints => [:index]}
+  # menu :application_menu, :all_sprints, { :controller => 'all_sprints', :action => 'index' }, :caption => :label_menu_all_sprints
 
   project_module :scrum do
     permission :sprints, {:adsprints => [:list], :adtaskinl => [:update, :inplace, :create, :tooltip], :adsprintinl => [:create, :inplace]}
