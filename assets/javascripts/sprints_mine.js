@@ -295,11 +295,29 @@
         // selections
         $('#sprints_selection select').change(function ()
         {
-            location.href = Sprints.getUrl('self') + '?project_id=' + Sprints.getProjectId() + '&sprint=' + $(this).val() + '&user=' +  $('#user_selection select').val();
+            location.href = Sprints.getUrl('self') +
+            '?project_id=' + Sprints.getProjectId() +
+            '&sprint=' + $(this).val() +
+            '&trackers=' + $('#tracker_selection select').val() +
+            '&user=' + $('#user_selection select').val();
         });
+
         $('#user_selection select').change(function ()
         {
-            location.href = Sprints.getUrl('self') + '?project_id=' + Sprints.getProjectId() + '&sprint=' + $('#sprints_selection select').val() + '&user=' +  $(this).val();
+            location.href = Sprints.getUrl('self') +
+            '?project_id=' + Sprints.getProjectId() +
+            '&sprint=' + $('#sprints_selection select').val() +
+            '&trackers=' + $('#tracker_selection select').val() +
+            '&user=' + $(this).val();
+        });
+
+        $('#tracker_selection select').change(function ()
+        {
+            location.href = Sprints.getUrl('self') +
+            '?project_id=' + Sprints.getProjectId() +
+            '&sprint=' + $('#sprints_selection select').val() +
+            '&trackers=' + $(this).val() +
+            '&user=' + $('#user_selection select').val();
         });
 
         // highlighting

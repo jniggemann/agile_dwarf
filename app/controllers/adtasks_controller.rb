@@ -34,6 +34,14 @@ class AdtasksController < ApplicationController
       user = @user
     end
 
+    trackers_ids = nil
+    if params[:trackers]
+      @trackers = params[:trackers].split(',')
+      trackers_ids = Tracker.find_all_by_name(@trackers).map(&:id) unless @trackers.include?('All')
+    else
+      @trackers = 'All'
+    end
+
     @plugin_path = File.join(Redmine::Utils.relative_url_root, 'plugin_assets', 'agile_dwarf')
     status_ids = []
     colcount = Setting.plugin_agile_dwarf['stcolumncount'].to_i
@@ -44,7 +52,7 @@ class AdtasksController < ApplicationController
     IssueStatus.find_all_by_id(status_ids).each {|x| @statuses[x.id] = x.name}
     @columns = []
     for i in 0 .. colcount - 1
-      tasks = SprintsTasks.get_tasks_by_status(@project, status_ids[i], sprint, user)
+      tasks = SprintsTasks.get_tasks_by_status_and_tracker(@project, status_ids[i], trackers_ids, sprint, user)
       points = {}
       tasks.each do |task|
         # We process only int custom fields

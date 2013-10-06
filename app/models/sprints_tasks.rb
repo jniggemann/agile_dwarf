@@ -21,6 +21,40 @@ class SprintsTasks < Issue
       user = User.current.id if user == 'current'
       cond << user
     end
+
+    tasks = SprintsTasks.find(:all, :select => 'issues.*, sum(hours) as spent', :order => SprintsTasks::ORDER, :conditions => cond, :group => "issues.id", :joins => [:status], :joins => "left join time_entries ON time_entries.issue_id = issues.id", :include => [:assigned_to])
+
+    filter_out_user_stories_with_children tasks
+  end
+
+  def self.get_tasks_by_status_and_tracker(project, status, tracker_id, sprint, user)
+    cond = ["issues.project_id = ? and status_id = ?", project.id, status]
+
+    if sprint == 'null'
+      cond[0] += ' and fixed_version_id is null'
+    elsif sprint == 'current'
+      cond[0] += ' and fixed_version_id = ?'
+      cond << Sprints.open_sprints(project).first.id
+    elsif sprint
+      cond[0] += ' and fixed_version_id = ?'
+      cond << sprint
+    end
+
+    if user
+      cond[0] += ' and assigned_to_id = ?'
+      user = User.current.id if user == 'current'
+      cond << user
+    end
+
+    if tracker_id
+      if tracker_id.kind_of? Enumerable
+        trackers = tracker_id.join(',')
+      else
+        trackers = tracker_id
+      end
+      cond[0] += " and tracker_id IN (#{trackers})"
+    end
+
     tasks = SprintsTasks.find(:all, :select => 'issues.*, sum(hours) as spent', :order => SprintsTasks::ORDER, :conditions => cond, :group => "issues.id", :joins => [:status], :joins => "left join time_entries ON time_entries.issue_id = issues.id", :include => [:assigned_to])
 
     filter_out_user_stories_with_children tasks

@@ -47,3 +47,6 @@ en:
   label_settings_column7status: Task Status for 7th column
   label_settings_columncount: Number of columns
   label_settings_check_custom_fields: 'Used custom fields for tasks:'
+  label_filter_sprint_select: Sprint
+  label_filter_user_select: User
+  label_filter_trackers_select: Trackers
