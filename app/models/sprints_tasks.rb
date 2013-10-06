@@ -7,6 +7,7 @@ class SprintsTasks < Issue
 
   def self.get_tasks_by_status(project, status, sprint, user)
     cond = ["issues.project_id = ? and status_id = ?", project.id, status]
+
     if sprint == 'null'
       cond[0] += ' and fixed_version_id is null'
     elsif sprint == 'current'
@@ -16,6 +17,7 @@ class SprintsTasks < Issue
       cond[0] += ' and fixed_version_id = ?'
       cond << sprint
     end
+
     if user
       cond[0] += ' and assigned_to_id = ?'
       user = User.current.id if user == 'current'
