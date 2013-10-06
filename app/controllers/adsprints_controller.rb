@@ -21,7 +21,7 @@ class AdsprintsController < ApplicationController
     @available_custom_fields = SprintsTasks.available_custom_fields(@project)
 
     trackers_ids = nil
-    if params[:trackers]
+    if params[:trackers] && params[:trackers] != 'null'
       @trackers = params[:trackers].split(',')
       trackers_ids = Tracker.find_all_by_name(@trackers).map(&:id) unless @trackers.include?('All')
     else

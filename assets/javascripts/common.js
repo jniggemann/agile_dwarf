@@ -145,3 +145,7 @@ var Sprints = function ($)
 
     return obj;
 }(jQuery);
+
+jQuery(document).ready(function() {
+    jQuery('#tracker_selection select').select2();
+});
