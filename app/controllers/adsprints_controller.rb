@@ -4,7 +4,6 @@ class AdsprintsController < ApplicationController
   before_filter :find_project, :authorize
 
   def list
-    @backlog = SprintsTasks.get_backlog(@project)
     @sprints = Sprints.all_sprints(@project).select {|s| s.name.downcase.match(/release$/).nil? }
 
     # releases are a versioned backlog that appear on the left side of the interface, rather than with the rest of the sprints on the right
@@ -20,6 +19,16 @@ class AdsprintsController < ApplicationController
     @plugin_path = File.join(Redmine::Utils.relative_url_root, 'plugin_assets', 'agile_dwarf')
     @closed_status = Setting.plugin_agile_dwarf["stclosed"].to_i
     @available_custom_fields = SprintsTasks.available_custom_fields(@project)
+
+    trackers_ids = nil
+    if params[:trackers]
+      @trackers = params[:trackers].split(',')
+      trackers_ids = Tracker.find_all_by_name(@trackers).map(&:id) unless @trackers.include?('All')
+    else
+      @trackers = 'All'
+    end
+
+    @backlog = SprintsTasks.get_backlog(@project, trackers_ids)
 
     @backlog_points = {}
     @backlog.each do |task|
@@ -44,6 +53,7 @@ class AdsprintsController < ApplicationController
       if sprint.tasks.any?
         @sprints_points[sprint] = {}
         sprint.tasks.each do |task|
+          next unless @trackers.include?('All') || @trackers.include?(task.tracker.try(:name))
           user = task.assigned_to
           # We process only int custom fields
           task.custom_field_values.each do |cfv|

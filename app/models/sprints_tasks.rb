@@ -83,6 +83,36 @@ class SprintsTasks < Issue
     filter_out_user_stories_with_children tasks
   end
 
+  def self.get_tasks_by_sprint_and_tracker(project, sprint, tracker_id)
+    cond = ["is_closed = ?", false]
+    if project.present?
+      cond[0] += ' and project_id IN (?)'
+      cond << [project.id, project.parent_id].compact
+    end
+
+    if tracker_id
+      if tracker_id.kind_of? Enumerable
+        trackers = tracker_id.join(',')
+      else
+        trackers = tracker_id
+      end
+      cond[0] += " and tracker_id IN (#{trackers})"
+    end
+
+    if sprint.present?
+      if sprint == 'null'
+        cond[0] += ' and fixed_version_id is null'
+      else
+        cond[0] += ' and fixed_version_id = ?'
+        cond << sprint
+      end
+    end
+
+    tasks = SprintsTasks.find(:all, :select => 'issues.*, trackers.name AS t_name', :order => SprintsTasks::ORDER, :conditions => cond, :joins => :status, :joins => "left join issue_statuses on issue_statuses.id = status_id left join trackers on trackers.id = tracker_id", :include => :assigned_to)
+
+    filter_out_user_stories_with_children tasks
+  end
+
   def self.filter_out_user_stories_with_children(tasks)
     # if the task is a user story then only display it if it has no child issues.
     # if it does then we schedule the child issues, not the user story itself
@@ -99,8 +129,8 @@ class SprintsTasks < Issue
     end
   end
 
-  def self.get_backlog(project = nil)
-    SprintsTasks.get_tasks_by_sprint(project, 'null')
+  def self.get_backlog(project = nil, tracker_id = nil)
+    SprintsTasks.get_tasks_by_sprint_and_tracker(project, 'null', tracker_id)
   end
 
   def move_after(prev_id)

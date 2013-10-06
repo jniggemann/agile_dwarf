@@ -26,7 +26,8 @@
             'taskcreate': '<%= url_for(:controller => 'adtaskinl', :action => 'create') %>',
             'issues': '<%= url_for(:controller => 'issues') %>',
             'sprintinline': '<%= url_for(:controller => 'adsprintinl', :action => 'inplace') %>',
-            'sprintcreate': '<%= url_for(:controller => 'adsprintinl', :action => 'create') %>'
+            'sprintcreate': '<%= url_for(:controller => 'adsprintinl', :action => 'create') %>',
+            'self': '<%= url_for(:controller => 'adsprints', :action => 'list') %>'
         },
         project_users: <%= ActiveSupport::JSON.encode(@assignables).html_safe %>,
         form_authenticity_token: '<%= form_authenticity_token %>',
@@ -44,6 +45,11 @@
 
 <fieldset id="filters" class="collapsible">
   <legend><%= l(:label_filter_plural) %></legend>
+  <div id="tracker_selection" class="fl">
+    <label for="tracker_select"><%= l(:label_filter_trackers_select) %></label>
+    <%= select_tag :trackers, options_for_tracker_select, multiple: true  %>
+  </div>
+
   <div id="sprints_selection" class="fl">
     <label for="sprints_selection_el"><%= l(:label_sprints_filter) %></label>
     <select id="sprints_selection_el">

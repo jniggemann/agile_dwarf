@@ -583,5 +583,13 @@
         }).on('mouseout', '.sc_task', function () {
             $(this).removeClass('active');
         });
+
+        // filter by tracker
+        $('#tracker_selection select').change(function ()
+        {
+            location.href = Sprints.getUrl('self') +
+            '?project_id=' + Sprints.getProjectId() +
+            '&trackers=' + $(this).val();
+        });
     });
 })(jQuery);
