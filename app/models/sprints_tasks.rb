@@ -167,4 +167,11 @@ class SprintsTasks < Issue
     enabled_custom_fields_ids = Setting.plugin_agile_dwarf["custom_fields_ids"].map(&:to_i)
     project.all_issue_custom_fields.select { |cf| enabled_custom_fields_ids.include? cf.id }
   end
+
+  # When user clicks on "new task" the task is created and further fields
+  # changes just updates the existing task so we can't have any mandatory
+  # custom fields without default values.
+  def available_custom_fields
+    super().delete_if { |cf| cf.is_required && !cf.default_value }
+  end
 end
