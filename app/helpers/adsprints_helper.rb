@@ -1,6 +1,6 @@
 module AdsprintsHelper
   def options_for_tracker_select
-    options = Tracker.pluck(:name)
+    options = @project.trackers.pluck(:name)
     options.unshift('All')
     options_for_select(options, @trackers)
   end

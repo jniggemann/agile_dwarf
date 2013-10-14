@@ -20,14 +20,12 @@ class AdsprintsController < ApplicationController
     @closed_status = Setting.plugin_agile_dwarf["stclosed"].to_i
     @available_custom_fields = SprintsTasks.available_custom_fields(@project)
 
-    trackers_ids = nil
     if params[:trackers] && params[:trackers] != 'null'
       @trackers = params[:trackers].split(',')
-      trackers_ids = Tracker.find_all_by_name(@trackers).map(&:id) unless @trackers.include?('All')
     else
-      @trackers = 'All'
+      @trackers = @project.trackers.pluck(:name) & %w(Epic Story Bug)
     end
-
+    trackers_ids = @trackers.include?('All') ? nil : Tracker.find_all_by_name(@trackers).map(&:id)
     @backlog = SprintsTasks.get_backlog(@project, trackers_ids)
 
     @backlog_points = {}

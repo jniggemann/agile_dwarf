@@ -34,13 +34,12 @@ class AdtasksController < ApplicationController
       user = @user
     end
 
-    trackers_ids = nil
     if params[:trackers] && params[:trackers] != 'null'
       @trackers = params[:trackers].split(',')
-      trackers_ids = Tracker.find_all_by_name(@trackers).map(&:id) unless @trackers.include?('All')
     else
-      @trackers = 'All'
+      @trackers = @project.trackers.pluck(:name) & %w(Task Bug)
     end
+    trackers_ids = @trackers.include?('All') ? nil : Tracker.find_all_by_name(@trackers).map(&:id)
 
     @plugin_path = File.join(Redmine::Utils.relative_url_root, 'plugin_assets', 'agile_dwarf')
     status_ids = []
