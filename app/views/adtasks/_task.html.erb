@@ -51,6 +51,7 @@
     </div>
     <div class="custom_fields clearfix">
       <% task.custom_field_values.each do |cfv| %>
+        <% next unless @available_custom_fields_ids.include? cfv.custom_field.id %>
         <div class="custom_field clearfix" data-custom-field-id=<%= cfv.custom_field.id %>>
           <div class="fl name"><%= cfv.custom_field.name %>:</div>
           <div class="fl value"><%= cfv.value %></div>

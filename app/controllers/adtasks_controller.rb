@@ -12,6 +12,8 @@ class AdtasksController < ApplicationController
     @project.assignable_users.each{|u| @assignables_list[u.id] = u.name}
     # Support Assign to nobody
     @assignables_list[""] = ""
+    @available_custom_fields = SprintsTasks.available_custom_fields(@project)
+    @available_custom_fields_ids = @available_custom_fields.map(&:id)
 
     # filter values
     @selected = params[:sprint] || 'current'
@@ -56,7 +58,7 @@ class AdtasksController < ApplicationController
       tasks.each do |task|
         # We process only int custom fields
         task.custom_field_values.each do |cfv|
-          if cfv.custom_field.field_format == 'int'
+          if cfv.custom_field.field_format == 'int' && (@available_custom_fields_ids.include? cfv.custom_field.id)
             value = cfv.value.to_i
             if value != 0
               custom_field = cfv.custom_field
