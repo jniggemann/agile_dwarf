@@ -1,4 +1,6 @@
 <%= javascript_include_tag 'libs/jquery-1.7.2.min.js', :plugin => 'agile_dwarf' %>
+<%= javascript_include_tag 'libs/select2/select2.min.js', plugin: 'agile_dwarf' %>
+<%= stylesheet_link_tag 'libs/select2/select2.css', plugin: 'agile_dwarf' %>
 <%= javascript_include_tag 'settings', :plugin => 'agile_dwarf' %>
 
 <p>
@@ -75,5 +77,12 @@
     There is no custom fields to choose.
   <%= link_to 'create custom field', new_custom_field_path(:type => 'IssueCustomField') %>
   <% end %>
+  </p>
+</div>
+
+<div id='blocked_input_field'>
+  <p>
+    <%= label_tag l(:label_settings_blocked_field_name) %>
+    <%= select_tag 'settings[block_custom_field_id]', options_for_select(CustomField.where(type: 'IssueCustomField').where(field_format: 'bool').all.map { |i| [i.name, i.id] }, Setting.plugin_agile_dwarf['block_custom_field_id']), id: 'blocked_field'  %>
   </p>
 </div>

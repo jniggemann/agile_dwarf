@@ -50,3 +50,4 @@ en:
   label_filter_sprint_select: Sprint
   label_filter_user_select: User
   label_filter_trackers_select: Trackers
+  label_settings_blocked_field_name: Block field (should be boolean)
