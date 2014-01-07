@@ -11,7 +11,7 @@ Redmine::Plugin.register :agile_dwarf do
   name 'Agile dwarf plugin'
   author 'Mark Ablovacky'
   description 'Agile for Redmine'
-  version '0.0.3'
+  version '0.0.4'
   url ''
 
   settings :default => {
