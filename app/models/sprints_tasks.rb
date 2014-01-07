@@ -153,6 +153,10 @@ class SprintsTasks < Issue
     end
   end
 
+  def blocked?
+    @is_blocked ||= custom_field_values.find { |cfv| cfv.custom_field_id.to_s == Setting.plugin_agile_dwarf['block_custom_field_id'].to_s }.try(:value) == '1'
+  end
+
   def update_and_position!(params)
     attribs = params.select{|k,v| k != 'id' && k != 'project_id' && SprintsTasks.column_names.include?(k) }
     attribs = Hash[*attribs.flatten]
@@ -174,4 +178,8 @@ class SprintsTasks < Issue
   def available_custom_fields
     super().delete_if { |cf| cf.is_required && !cf.default_value }
   end
+
+  private
+
+    attr_reader :is_blocked
 end

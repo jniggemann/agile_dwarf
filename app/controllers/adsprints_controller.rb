@@ -2,6 +2,7 @@ class AdsprintsController < ApplicationController
   unloadable
 
   before_filter :find_project, :authorize
+  before_filter :clear_flash, only: [:list] # For muting flash messages about successful issue saving after blocked status updating
 
   def list
     @sprints = Sprints.all_sprints(@project).select {|s| s.name.downcase.match(/release$/).nil? }
@@ -78,5 +79,9 @@ class AdsprintsController < ApplicationController
   def find_project
     # @project variable must be set before calling the authorize filter
     @project = Project.find(params[:project_id])
+  end
+
+  def clear_flash
+    flash.clear
   end
 end

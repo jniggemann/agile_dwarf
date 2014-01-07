@@ -2,6 +2,7 @@ class AdtasksController < ApplicationController
   unloadable
 
   before_filter :find_project, :authorize
+  before_filter :clear_flash, only: [:list] # For muting flash messages about successful issue saving after blocked status updating
 
   def list
     # data for filters
@@ -80,5 +81,9 @@ class AdtasksController < ApplicationController
   def find_project
     # @project variable must be set before calling the authorize filter
     @project = Project.find(params[:project_id])
+  end
+
+  def clear_flash
+    flash.clear
   end
 end
