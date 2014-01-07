@@ -64,11 +64,11 @@
   <p>
     <%= label_tag l(:label_settings_check_custom_fields) %>
   </p>
-  <% custom_fields = CustomField.where(type: 'IssueCustomField') %>
+  <% custom_fields = CustomField.where(type: 'IssueCustomField', field_format: ['int', 'string', 'text', 'float']).where("NOT (is_required = true AND default_value IS NULL)") %>
   <% if custom_fields.any? %>
-    <% CustomField.where("NOT (is_required = true AND default_value IS NULL)").all.each do |cf| %>
+    <% custom_fields.each do |cf| %>
       <p>
-        <% checked = Setting.plugin_agile_dwarf['custom_fields_ids'] ? Setting.plugin_agile_dwarf['custom_fields_ids'].include?(cf.id.to_s) : false %>
+        <% checked = (Setting.plugin_agile_dwarf['custom_fields_ids'] && Setting.plugin_agile_dwarf['custom_fields_ids'].include?(cf.id.to_s)) %>
         <%= label_tag "custom_field_#{cf.id}", cf.name %>
         <%= check_box_tag("settings[custom_fields_ids][]", cf.id, checked, {multiple: true, id: "custom_field_#{cf.id}"}) %>
       </p>
