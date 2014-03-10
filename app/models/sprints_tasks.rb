@@ -5,30 +5,6 @@ class SprintsTasks < Issue
 
   ORDER = 'case when issues.ir_position is null then 1 else 0 end ASC, case when issues.ir_position is NULL then issues.id else issues.ir_position end ASC'
 
-  def self.get_tasks_by_status(project, status, sprint, user)
-    cond = ["issues.project_id = ? and status_id = ?", project.id, status]
-
-    if sprint == 'null'
-      cond[0] += ' and fixed_version_id is null'
-    elsif sprint == 'current'
-      cond[0] += ' and fixed_version_id = ?'
-      cond << Sprints.open_sprints(project).first.id
-    elsif sprint
-      cond[0] += ' and fixed_version_id = ?'
-      cond << sprint
-    end
-
-    if user
-      cond[0] += ' and assigned_to_id = ?'
-      user = User.current.id if user == 'current'
-      cond << user
-    end
-
-    tasks = SprintsTasks.find(:all, :select => 'issues.*, sum(hours) as spent', :order => SprintsTasks::ORDER, :conditions => cond, :group => "issues.id", :joins => [:status], :joins => "left join time_entries ON time_entries.issue_id = issues.id", :include => [:assigned_to])
-
-    filter_out_user_stories_with_children tasks
-  end
-
   def self.get_tasks_by_status_and_tracker(project, status, tracker_id, sprint, user)
     cond = ["issues.project_id = ? and status_id = ?", project.id, status]
 
@@ -42,7 +18,10 @@ class SprintsTasks < Issue
       cond << sprint
     end
 
-    if user
+    if user == "" # Unassigned
+      cond[0] += ' and assigned_to_id IS ?'
+      cond << nil
+    elsif user # Assigned to user
       cond[0] += ' and assigned_to_id = ?'
       user = User.current.id if user == 'current'
       cond << user
@@ -168,8 +147,12 @@ class SprintsTasks < Issue
   end
 
   def self.available_custom_fields(project)
-    enabled_custom_fields_ids = Setting.plugin_agile_dwarf["custom_fields_ids"].map(&:to_i)
-    project.all_issue_custom_fields.select { |cf| enabled_custom_fields_ids.include? cf.id }
+    if Setting.plugin_agile_dwarf[:custom_fields_ids]
+      enabled_custom_fields_ids = Setting.plugin_agile_dwarf[:custom_fields_ids].map(&:to_i)
+      project.all_issue_custom_fields.select { |cf| enabled_custom_fields_ids.include? cf.id }
+    else
+      []
+    end
   end
 
   # When user clicks on "new task" the task is created and further fields

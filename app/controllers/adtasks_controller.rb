@@ -33,6 +33,8 @@ class AdtasksController < ApplicationController
     @user = params[:user] || 'all'
     if @user == 'all'
       user = nil
+    elsif @user == 'unassigned'
+      user = ""
     else
       user = @user
     end

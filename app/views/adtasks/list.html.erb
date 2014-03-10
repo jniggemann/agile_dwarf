@@ -70,6 +70,7 @@
         <select id="user_select">
           <option <%= @user == 'all' ? 'selected=selected' : '' %> value='all'><%= l(:label_tasks_select_user_all) %></option>
           <option <%= @user == 'current' ? 'selected=selected' : '' %> value='current'><%= l(:label_tasks_select_user_current) %></option>
+          <option <%= @user == 'unassigned' ? 'selected=selected' : '' %> value='unassigned'><%= l(:label_tasks_select_user_unassigned) %></option>
           <%- @assignables.each do |s| %>
               <option value="<%= s.id %>" <%= @user == s.id.to_s ? 'selected=selected' : '' %>><%= s.firstname + ' ' + s.lastname %></option>
           <%- end %>
