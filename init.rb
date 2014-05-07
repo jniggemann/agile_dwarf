@@ -28,7 +28,7 @@ Redmine::Plugin.register :agile_dwarf do
   permission :all_sprints, { :all_sprints => [:index]}
   menu :application_menu, :all_sprints, { :controller => 'all_sprints', :action => 'index' }, :caption => :label_menu_all_sprints
 
-  project_module :scrum do
+  project_module :agiledwarf do
     permission :sprints, {:adsprints => [:list], :adtaskinl => [:update, :inplace, :create, :tooltip], :adsprintinl => [:create, :inplace]}
     permission :sprints_readonly, {:adsprints => [:list]}
     permission :sprints_tasks, {:adtasks => [:list], :adtaskinl => [:update, :inplace, :tooltip, :spent]}
