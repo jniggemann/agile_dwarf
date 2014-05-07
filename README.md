@@ -1,29 +1,39 @@
+###Preface: Redmine 1.x
+
+If you're still using redmine 1.x, please upgrade. Redmine 1.x is out of support since a **very** long time, it's a security risk and you must not use it anymore. No support for redmine 1.x will be given at any time. Don't bother writing emails or opening issues, they won't be answered anyway.
+
 Agile Dwarf
 ===========
 
-Thank you for your interest in agile_dwarf
+This plugin was originally developed by [iRessources](http://www.iressources.com/) (at least it seems so).  
+I forked it to correct minor annoyances, contributions and pull requests are welcome.
 
-INSTALLATION INSTRUCTIONS
--------------------------
+INSTALLATION
+------------
 
-Download the package from https://github.com/iRessources/agile_dwarf
+Read the plugin installation guide on redmine.org: http://www.redmine.org/projects/redmine/wiki/Plugins  
+If you're already somewhat familiar with installing redmine plugins, read on.
 
-for Redmine 2.x: unpack it into #{RAILS_ROOT}/plugins
-for Redmine 1.x: unpack it into #{RAILS_ROOT}/vendor/plugins
+###QUICK INSTALLATION INSTRUCTIONS FOR THE IMPATIENT
 
-Name the unpacked folder 'agile_dwarf'
+####Using ZIP-file
 
-OR instead of downloading and unpacking
+* [Download the installation file from my repo](https://github.com/jniggemann/agile_dwarf/archive/master.zip)
+* unzip it into ```#{RAILS_ROOT}/plugins```
+* rename the extracted folder to 'agile_dwarf'
+* in ```#{RAILS_ROOT}``` run the command ```rake redmine:plugins:migrate```
+* restart redmine
 
-    execute git clone https://github.com/iRessources/agile_dwarf.git in corresponding folder.
+####Using git
 
-In #{RAILS_ROOT} run the command
+* ```git clone https://github.com/jniggemann/agile_dwarf.git``` into plugin folder
+* ```rake redmine:plugins:migrate```
+* restart redmine
 
-    rake redmine:plugins:migrate
-  
-Restart Redmine
- 
-Change settings for plugin via Administration -> Plugins -> Agile dwarf plugin -> Configure
+## CONFIGURATION
+
+Plugin settings are available via Administration -> Plugins -> Agile Dwarf plugin -> Configure  
+To enable / disable, go to <project> -> Settings -> Modules -> Agile Dwarf
 
 ABOUT AGILE DWARF
 -----------------
